@@ -1,5 +1,16 @@
 * Discover Hollywood
 
-** requirement
-   - jdk(1.8 or later)
-   - gradle (2.4) install via homebrew
+** compilation dependencies
+   - jdk 1.8, download from oracle official web site.
+   - gradle 2.4, can be installed by homebrew.
+
+** runtime dependencies
+   - mysql, the server need be up and running.
+     
+** how to use
+   - run `gradle run` in the root directory
+   - open the browser and type url 'http://localhost:8080' to check the server is running
+   - run the script hosted in '$rootDir/scripts'.
+
+   
+  

@@ -18,12 +18,8 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
     private final Config config;
     
     @Bean
-    @Scope
     public DataSource getDataSource() throws Exception {
         Config params = config.getConfig("hollywood.datasource");
-
-        System.out.println("==== data source url:");
-        System.out.println(params.getString("url"));
 
         HikariConfig config = new HikariConfig();
         config.setUsername(params.getString("user"));
@@ -41,5 +37,10 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
         config.addDataSourceProperty("useServerPrepStmts", "true");
 
         return new HikariDataSource(config);
+    }
+
+    @Bean
+    public Config getConfig() {
+        return config;
     }
 }

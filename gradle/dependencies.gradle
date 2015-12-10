@@ -36,4 +36,6 @@ libraries.guava = 'com.google.guava:guava:18.0'
 
 libraries.config = 'com.typesafe:config:1.2.1'
 
+libraries.lenskit = 'org.grouplens.lenskit:lenskit-all:2.2.1'
+
 

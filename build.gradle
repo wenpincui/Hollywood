@@ -16,7 +16,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
 }
 
-def entry = 'com.splunk.hollywood/HelloWorld'
+def entry = 'com.splunk.hollywood/HollywoodServer'
 run {
     mainClassName = entry
 }
@@ -24,7 +24,8 @@ run {
 dependencies {
     compile libraries.spring_boot,
       libraries.database,
-      libraries.config
+      libraries.config,
+      libraries.lenskit
 //            libraries.spring_data
     
     testCompile libraries.testng

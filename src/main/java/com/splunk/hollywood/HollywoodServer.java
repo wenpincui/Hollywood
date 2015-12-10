@@ -12,17 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
         "com.splunk.hollywood"
         })
-@Controller
-public class HelloWorld {
-
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return "Hello World!";
-    }
-
+public class HollywoodServer {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(HelloWorld.class, args);
+        SpringApplication.run(HollywoodServer.class, args);
     }
 }
 
