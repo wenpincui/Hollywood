@@ -1,0 +1,5 @@
+* Descover Hollywood
+
+** requirement
+   - jdk(1.8 or later)
+   - gradle (2.4) install via homebrew
