@@ -1,4 +1,4 @@
-* Descover Hollywood
+* Discover Hollywood
 
 ** requirement
    - jdk(1.8 or later)

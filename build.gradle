@@ -1,6 +1,7 @@
-buildscript {
+allprojects {
     repositories {
-        jcenter()
+      mavenCentral()
+      jcenter()
     }
 }
 
@@ -18,4 +19,14 @@ task wrapper(type: Wrapper) {
 def entry = 'com.splunk.hollywood/HelloWorld'
 run {
     mainClassName = entry
+}
+
+dependencies {
+    compile libraries.spring_boot,
+      libraries.database,
+      libraries.config
+//            libraries.spring_data
+    
+    testCompile libraries.testng
+
 }
