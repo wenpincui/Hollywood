@@ -33,17 +33,17 @@ CREATE TABLE `tags` (
 ) DEFAULT CHARSET=utf8;
 
 ALTER TABLE `movies`
-ADD UNIQUE INDEX `movie_id_idx` (`movieId`) ASC),
+ADD UNIQUE INDEX `movie_id_idx` (`movieId` ASC),
 ADD INDEX `title_idx` (`title` ASC);
 
 ALTER TABLE `ratings`
-ADD INDEX `movie_id_idx` (`movieId`) ASC),
+ADD INDEX `movie_id_idx` (`movieId` ASC),
 ADD INDEX `user_id_idx` (`userId` ASC),
 ADD INDEX `rating_idx` (`rating` ASC);
 
 ALTER TABLE `links`
-ADD INDEX `movie_id_idx` (`movieId`) ASC);
+ADD INDEX `movie_id_idx` (`movieId` ASC);
 
 ALTER TABLE `tags`
-ADD INDEX `movie_id_idx` (`movieId`) ASC),
+ADD INDEX `movie_id_idx` (`movieId` ASC),
 ADD INDEX `tag_idx` (`userId` ASC);

@@ -1,0 +1,55 @@
+swagger: "2.0"
+info:
+  title: Discover Hollywood HTTP API
+  description: |
+    REST API of discover hollywood service.
+  version: "1.0"
+  contact:
+    name: support for API
+    email: "wenpincui224@gmail.com"
+host: localhost
+schemes:
+  - https
+basePath: /
+tags:
+  - name: statistics
+    description: server status
+  - name: movies
+    description: movie operation like rating
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /statistics/status:
+    get:
+      summary:  return current server status
+      parameters:
+        - &paginationParameters
+          name: body
+          in: body
+          schema:
+            $ref: '#/definitions/PaginationParameters'
+      tags:
+        - statistics
+      responses:
+        200:
+          description: server status
+          schema:
+            properties:
+              total:
+                description: total number of objects
+                type: integer
+                minimum: 0
+              page:
+                description: number of current page
+                type: integer
+                minimum: 1
+              pageSize:
+                description: max number of objects per page
+                type: integer
+                minimum: 1
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Instance'

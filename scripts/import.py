@@ -7,7 +7,7 @@ conn = MySQLdb.connect('localhost','root','password','small')
 
 cursor = conn.cursor()
 
-txt = csv.reader(file('movies.csv'))
+txt = csv.reader(file('../data/small/movies.csv'))
 line = 0
 for row in txt:
     if (line > 0):
@@ -16,7 +16,7 @@ for row in txt:
 
 conn.commit()
 
-txt = csv.reader(file('ratings.csv'))
+txt = csv.reader(file('../data/small/ratings.csv'))
 line = 0
 for row in txt:
     if (line > 0):
@@ -25,7 +25,7 @@ for row in txt:
 
 conn.commit()
 
-txt = csv.reader(file('tags.csv'))
+txt = csv.reader(file('../data/small/tags.csv'))
 line = 0
 for row in txt:
     if (line > 0):
@@ -33,7 +33,7 @@ for row in txt:
     line += 1
 conn.commit()
 
-txt = csv.reader(file('links.csv'))
+txt = csv.reader(file('../data/small/links.csv'))
 line = 0
 for row in txt:
     if (line > 0):
