@@ -8,19 +8,16 @@ import com.splunk.hollywood.exception.NotFoundException;
 import com.splunk.hollywood.model.Links;
 import com.splunk.hollywood.model.Movie;
 import com.splunk.hollywood.model.Tag;
+import com.splunk.hollywood.service.RecommendService;
 import com.splunk.hollywood.utils.FloatRounder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -28,6 +25,7 @@ public class MovieInfo {
     private MovieDAO movieDAO;
     private RatingDAO ratingDAO;
     private TagsDAO tagsDAO;
+    private RecommendService recommendService;
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public MovieDTO getMovieDetail(@PathVariable int id) throws Exception {
@@ -90,6 +88,19 @@ public class MovieInfo {
         };
     }
 
+    @RequestMapping(value = "recommend", method = RequestMethod.GET)
+    public List<MovieDTO> recommend(@RequestParam(required = true) int userId,
+                                    @RequestParam(defaultValue = "10") int num)
+            throws Exception{
+
+        List<MovieDTO> dtos = new ArrayList<MovieDTO>();
+        for (int movieId : recommendService.recommend(userId, num)) {
+            dtos.add(getMovieDetail(movieId));
+        }
+
+        return dtos;
+    }
+
     @Autowired
     public void setMovieDAO(MovieDAO movieDAO) {
         this.movieDAO = movieDAO;
@@ -103,5 +114,10 @@ public class MovieInfo {
     @Autowired
     public void setTagsDAO(TagsDAO tagsDAO) {
         this.tagsDAO = tagsDAO;
+    }
+
+    @Autowired
+    public void setRecommendService(RecommendService recommendService) {
+        this.recommendService = recommendService;
     }
 }
