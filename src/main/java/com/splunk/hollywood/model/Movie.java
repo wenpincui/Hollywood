@@ -1,8 +1,6 @@
 package com.splunk.hollywood.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "movies")
@@ -10,6 +8,7 @@ public class Movie extends BaseModel {
     private int movieId;
     private String title;
     private String genres;
+    private Links links;
 
     @Column(name = "movieid")
     public int getMovieId() {
@@ -34,5 +33,14 @@ public class Movie extends BaseModel {
 
     public void setGenres(String genres) {
         this.genres = genres;
+    }
+
+    @OneToOne(mappedBy = "movie")
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
     }
 }

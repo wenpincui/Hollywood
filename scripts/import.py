@@ -38,7 +38,7 @@ line = 0
 for row in txt:
     if (line > 0):
         cursor.execute('insert into links(movieId,imdbId,tmdbId)' 'values     (%s,%s,%s)',row)
+        conn.commit()
     line += 1
-conn.commit()
 
 conn.close()

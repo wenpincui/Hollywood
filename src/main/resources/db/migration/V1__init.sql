@@ -18,8 +18,8 @@ CREATE TABLE `ratings` (
 CREATE TABLE `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `movieId` int(32) DEFAULT 0,
-  `imdbId` varchar(256) DEFAULT 0,
-  `tmdbId` varchar(256) DEFAULT 0,
+  `imdbId` VARCHAR(256) DEFAULT 0,
+  `tmdbId` VARCHAR (256) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
 
