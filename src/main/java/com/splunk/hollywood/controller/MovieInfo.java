@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -60,6 +61,19 @@ public class MovieInfo {
         }
 
         return dto;
+    }
+
+    @RequestMapping(value = "action/apropos", method = RequestMethod.POST)
+    public List<MovieDTO> apropos(@PathVariable String name) throws Exception {
+        List<Movie> movies = movieDAO.findByMovieName(name);
+
+        List<MovieDTO> dtos = new ArrayList<MovieDTO>();
+
+        for (Movie m : movies) {
+            dtos.add(getMovieDetail(m.getMovieId()));
+        }
+
+        return dtos;
     }
 
     @Autowired

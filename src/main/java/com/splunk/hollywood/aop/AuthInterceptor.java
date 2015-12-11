@@ -1,6 +1,7 @@
 package com.splunk.hollywood.aop;
 
 import com.splunk.hollywood.constants.Header;
+import com.splunk.hollywood.exception.AuthFailException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,6 +15,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader(Header.TOKEN);
-        return token == null || token.equals(HARD_CODED_TOKEN);
+        if (token == null || token.equals(HARD_CODED_TOKEN)) {
+            return true;
+        } else {
+            throw new AuthFailException();
+        }
     }
 }

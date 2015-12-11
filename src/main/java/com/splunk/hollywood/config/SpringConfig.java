@@ -1,8 +1,11 @@
 package com.splunk.hollywood;
 
+import com.splunk.hollywood.aop.AuthInterceptor;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
@@ -16,7 +19,16 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
     }
 
     private final Config config;
-    
+
+    @Autowired
+    AuthInterceptor authInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor);
+    }
+
+
     @Bean
     public DataSource getDataSource() throws Exception {
         Config params = config.getConfig("hollywood.datasource");
