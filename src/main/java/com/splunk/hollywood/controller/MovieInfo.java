@@ -5,17 +5,22 @@ import com.splunk.hollywood.dao.RatingDAO;
 import com.splunk.hollywood.dao.TagsDAO;
 import com.splunk.hollywood.dto.MovieDTO;
 import com.splunk.hollywood.exception.NotFoundException;
+import com.splunk.hollywood.model.Links;
 import com.splunk.hollywood.model.Movie;
 import com.splunk.hollywood.model.Tag;
 import com.splunk.hollywood.utils.FloatRounder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -32,8 +37,12 @@ public class MovieInfo {
 
         MovieDTO dto = new MovieDTO();
         BeanUtils.copyProperties(movie, dto);
-        dto.setImbdLinks(movie.getLinks().getImdbId());
-        dto.setTmdbLinks(movie.getLinks().getTmdbId());
+
+        if (movie.getLinks() != null) {
+            Links link = movie.getLinks();
+            dto.setImbdLinks(link.getImdbId());
+            dto.setTmdbLinks(link.getTmdbId());
+        }
 
         float ratings = ratingDAO.findAverageByMovieId(id);
         dto.setRatings(FloatRounder.floor(ratings));
@@ -63,17 +72,22 @@ public class MovieInfo {
         return dto;
     }
 
-    @RequestMapping(value = "action/apropos", method = RequestMethod.POST)
-    public List<MovieDTO> apropos(@PathVariable String name) throws Exception {
-        List<Movie> movies = movieDAO.findByMovieName(name);
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public Callable<List<MovieDTO>> apropos(@RequestParam final String name) throws Exception {
+        return new Callable<List<MovieDTO>>() {
+            @Override
+            public List<MovieDTO> call() throws Exception {
+                List<Movie> movies = movieDAO.findByMovieName(name);
 
-        List<MovieDTO> dtos = new ArrayList<MovieDTO>();
+                List<MovieDTO> dtos = new ArrayList<MovieDTO>();
 
-        for (Movie m : movies) {
-            dtos.add(getMovieDetail(m.getMovieId()));
-        }
+                for (Movie m : movies) {
+                    dtos.add(getMovieDetail(m.getMovieId()));
+                }
 
-        return dtos;
+                return dtos;
+            }
+        };
     }
 
     @Autowired

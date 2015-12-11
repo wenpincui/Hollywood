@@ -10,6 +10,6 @@ import java.util.List;
 public interface MovieDAO extends PagingAndSortingRepository<Movie, Integer> {
     Movie findByMovieId(int movieId);
 
-    @Query("SELECT m from Movie m where m.title like \'%:name%\'")
+    @Query(value = "SELECT * from movies where title like %:name%", nativeQuery = true)
     List<Movie> findByMovieName(@Param("name") String name);
 }
