@@ -4,6 +4,7 @@ import com.splunk.hollywood.model.Links;
 
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 public class MovieDTO {
     private int movieId;
@@ -12,6 +13,7 @@ public class MovieDTO {
     private String ratings;
     private int imbdLinks;
     private int tmdbLinks;
+    private List<String> tags;
 
     public int getMovieId() {
         return movieId;
@@ -59,5 +61,13 @@ public class MovieDTO {
 
     public void setTmdbLinks(int tmdbLinks) {
         this.tmdbLinks = tmdbLinks;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

@@ -7,5 +7,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface RatingDAO extends PagingAndSortingRepository<Rating, Integer> {
     @Query("SELECT AVG(r.rating) from Rating r where r.movieId=:movieId")
-    float findAverageByVideoId(@Param("movieId") int movieId);
+    float findAverageByMovieId(@Param("movieId") int movieId);
 }
