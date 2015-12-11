@@ -4,6 +4,7 @@ import com.splunk.hollywood.dao.MovieDAO;
 import com.splunk.hollywood.dao.RatingDAO;
 import com.splunk.hollywood.dao.TagsDAO;
 import com.splunk.hollywood.dto.MovieDTO;
+import com.splunk.hollywood.exception.NotFoundException;
 import com.splunk.hollywood.model.Movie;
 import com.splunk.hollywood.model.Tag;
 import com.splunk.hollywood.utils.FloatRounder;
@@ -23,8 +24,10 @@ public class MovieInfo {
     private TagsDAO tagsDAO;
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public MovieDTO getMovieDetail(@PathVariable int id) {
+    public MovieDTO getMovieDetail(@PathVariable int id) throws Exception {
         Movie movie = movieDAO.findByMovieId(id);
+
+        if (movie == null) throw new NotFoundException();
 
         MovieDTO dto = new MovieDTO();
         BeanUtils.copyProperties(movie, dto);

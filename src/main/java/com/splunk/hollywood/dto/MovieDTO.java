@@ -1,9 +1,5 @@
 package com.splunk.hollywood.dto;
 
-import com.splunk.hollywood.model.Links;
-
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import java.util.List;
 
 public class MovieDTO {
