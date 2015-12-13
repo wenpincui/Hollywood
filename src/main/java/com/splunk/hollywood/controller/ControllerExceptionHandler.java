@@ -2,7 +2,9 @@ package com.splunk.hollywood.controller;
 
 import com.splunk.hollywood.dto.Errors;
 import com.splunk.hollywood.exception.AuthFailException;
+import com.splunk.hollywood.exception.InternalErrorException;
 import com.splunk.hollywood.exception.NotFoundException;
+import com.splunk.hollywood.exception.NotSupportException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +16,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value={
             NotFoundException.class,
-            AuthFailException.class
+            AuthFailException.class,
+            NotSupportException.class,
+            InternalErrorException.class
     })
     public ResponseEntity<Object> generalHandleException(Exception ex) {
         Errors error = new Errors();

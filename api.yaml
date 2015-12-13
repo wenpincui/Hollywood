@@ -7,15 +7,15 @@ info:
   contact:
     name: support for API
     email: "wenpincui224@gmail.com"
-host: localhost
+host: localhost:8080
 schemes:
-  - https
+  - http
 basePath: /
 tags:
   - name: statistics
     description: server status
   - name: movies
-    description: movie operation like rating
+    description: movie operations
 consumes:
   - application/json
 produces:
@@ -24,12 +24,6 @@ paths:
   /statistics/status:
     get:
       summary:  return current server status
-      parameters:
-        - &paginationParameters
-          name: body
-          in: body
-          schema:
-            $ref: '#/definitions/PaginationParameters'
       tags:
         - statistics
       responses:
@@ -37,19 +31,115 @@ paths:
           description: server status
           schema:
             properties:
-              total:
-                description: total number of objects
-                type: integer
-                minimum: 0
-              page:
-                description: number of current page
-                type: integer
-                minimum: 1
-              pageSize:
-                description: max number of objects per page
-                type: integer
-                minimum: 1
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/Instance'
+              status:
+                description: server status
+                type: string
+  /statistics/version:
+    get:
+      summary:  return the version of server
+      tags:
+        - statistics
+      responses:
+        200:
+          description: server version
+          schema:
+            properties:
+              version:
+                description: server version
+                type: string
+  /movies/{id}:
+    get:
+      summary: return the detail info of the given movie
+      tags:
+        - movies
+      parameters:
+        - &IdPara
+          name: id
+          in: path
+          description: id of the movie
+          required: true
+          type: integer
+      responses:
+        200:
+          description: the detail information of the given movie
+          schema:
+            $ref: '#/definitions/movie'
+
+  /movies/action/apropos:
+    get:
+      summary: apropos the movies with given name
+      tags:
+        - movies
+      parameters:
+        - &nameParams
+          name: name
+          in: query
+          description: the name of the movie to be searched for
+          required: true
+          type: string
+      responses:
+        200:
+          description: list of movies match the given name
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/movie'
+  /movies/action/recommend/:
+    get:
+      summary: get the recommendation
+      tags:
+        - movies
+      parameters: &recommendParams
+        - name: userId
+          in: query
+          required: true
+          description: which user to recommend for
+          type: integer
+        - name: num
+          in: query
+          required: false
+          description: how many movies want to be recommended
+          type: integer
+          default: 10
+      responses:
+        200:
+          description: list of recommended movies
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/movie'
+
+definitions:
+  movie:
+    description:
+      represent a movie entry
+    required:
+      - movieId
+      - title
+      - genres
+      - ratings
+      - tags
+    properties:
+      movieId:
+        description: movie id
+        type: integer
+      title:
+        description: movie name
+        type: string
+      genres:
+        description: catelog of the movie
+        type: string
+      ratings:  
+        description: the average rating of the given movie between 0.5 and 5.0
+        type: string
+      imdbLinks:
+        description: the id which imdb used to identify the movie
+        type: string
+      tmdbLinks:
+        description: the id which tmdb used to identify the movie
+        type: string
+      tags:
+        description: the tags which user added for the movie
+        type: array
+        items:
+          type: string

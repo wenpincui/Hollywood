@@ -5,11 +5,13 @@ import com.splunk.hollywood.dao.RatingDAO;
 import com.splunk.hollywood.dao.TagsDAO;
 import com.splunk.hollywood.dto.MovieDTO;
 import com.splunk.hollywood.exception.NotFoundException;
+import com.splunk.hollywood.exception.NotSupportException;
 import com.splunk.hollywood.model.Links;
 import com.splunk.hollywood.model.Movie;
 import com.splunk.hollywood.model.Tag;
 import com.splunk.hollywood.service.RecommendService;
 import com.splunk.hollywood.utils.FloatRounder;
+import com.typesafe.config.Config;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,7 @@ public class MovieInfo {
     private RatingDAO ratingDAO;
     private TagsDAO tagsDAO;
     private RecommendService recommendService;
+    private Config config;
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public MovieDTO getMovieDetail(@PathVariable int id) throws Exception {
@@ -70,7 +73,7 @@ public class MovieInfo {
         return dto;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/action/apropos", method = RequestMethod.GET)
     public Callable<List<MovieDTO>> apropos(@RequestParam final String name) throws Exception {
         return new Callable<List<MovieDTO>>() {
             @Override
@@ -88,17 +91,21 @@ public class MovieInfo {
         };
     }
 
-    @RequestMapping(value = "recommend", method = RequestMethod.GET)
+    @RequestMapping(value = "action/recommend", method = RequestMethod.GET)
     public List<MovieDTO> recommend(@RequestParam(required = true) int userId,
                                     @RequestParam(defaultValue = "10") int num)
             throws Exception{
 
-        List<MovieDTO> dtos = new ArrayList<MovieDTO>();
-        for (int movieId : recommendService.recommend(userId, num)) {
-            dtos.add(getMovieDetail(movieId));
-        }
+        if (config.getBoolean("hollywood.recommendEnable")) {
+            List<MovieDTO> dtos = new ArrayList<MovieDTO>();
+            for (int movieId : recommendService.recommend(userId, num)) {
+                dtos.add(getMovieDetail(movieId));
+            }
 
-        return dtos;
+            return dtos;
+        } else {
+            throw new NotSupportException();
+        }
     }
 
     @Autowired
@@ -119,5 +126,10 @@ public class MovieInfo {
     @Autowired
     public void setRecommendService(RecommendService recommendService) {
         this.recommendService = recommendService;
+    }
+
+    @Autowired
+    public void setConfig(Config config) {
+        this.config = config;
     }
 }

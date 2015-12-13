@@ -1,5 +1,7 @@
 package com.splunk.hollywood.controller;
 
+import com.splunk.hollywood.dto.ServerStatus;
+import com.splunk.hollywood.dto.ServerVersion;
 import com.typesafe.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +16,15 @@ public class Statistics {
 
     @RequestMapping("status")
     @ResponseBody
-    public String status() {
-        return "OK";
+    public ServerStatus status() {
+        return new ServerStatus();
     }
 
     @RequestMapping("version")
     @ResponseBody
-    public String version() {
-        return config.getString("hollywood.version");
+    public ServerVersion version() {
+        String version = config.getString("hollywood.version");
+        return new ServerVersion(version);
     }
 
     @Autowired
