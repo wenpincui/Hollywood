@@ -21,7 +21,7 @@
    - turn on/off recommendation service.
    - use different database.
      
-
-
+** license
+   This project is listensed with GPL.
    
   
