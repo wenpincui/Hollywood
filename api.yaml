@@ -34,6 +34,7 @@ paths:
               status:
                 description: server status
                 type: string
+                
   /statistics/version:
     get:
       summary:  return the version of server
@@ -47,6 +48,42 @@ paths:
               version:
                 description: server version
                 type: string
+                
+  /movies/:
+    get:
+      summary: return all the movies
+      tags:
+        - movies
+      parameters:
+        - name: page
+          in: query
+          description: page index
+          required: false
+          type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          type: integer
+          required: false
+      responses:
+        200:
+          description: list of movies at given page
+          schema:
+            properties:
+              total:
+                description: total number of movies
+                type: integer
+              page:
+                description: current page number
+                type: integer
+              pageSize:
+                description: page size of the response
+                type: integer
+              date: 
+                type: array
+                items:
+                  $ref: '#/definitions/movie'
+            
   /movies/{id}:
     get:
       summary: return the detail info of the given movie
