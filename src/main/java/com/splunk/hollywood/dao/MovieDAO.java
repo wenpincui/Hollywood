@@ -1,6 +1,8 @@
 package com.splunk.hollywood.dao;
 
 import com.splunk.hollywood.model.Movie;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +14,6 @@ public interface MovieDAO extends PagingAndSortingRepository<Movie, Integer> {
 
     @Query(value = "SELECT * from movies where title like %:name%", nativeQuery = true)
     List<Movie> findByMovieName(@Param("name") String name);
+
+    Page<Movie> findAll(Pageable pageable);
 }
