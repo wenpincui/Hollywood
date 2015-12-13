@@ -121,7 +121,7 @@ paths:
             type: array
             items: 
               $ref: '#/definitions/movie'
-  /movies/action/recommend/:
+  /movies/action/recommend:
     get:
       summary: get the recommendation
       tags:

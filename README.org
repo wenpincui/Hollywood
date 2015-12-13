@@ -1,16 +1,27 @@
 * Discover Hollywood
 
-** compilation dependencies
-   - jdk 1.8, download from oracle official web site.
-   - gradle 2.4, can be installed by homebrew.
+** build
 
-** runtime dependencies
-   - mysql, the server need be up and running.
+*** requirements
+   - jdk 1.7 or later
+   - gradle 2.0+
+
+*** runtime dependencies
+   - mysql, the server need to be up and running.
      
-** how to use
-   - run `gradle run` in the root directory
+*** glue everything
+   - run `gradle run` in the project's root directory
    - open the browser and type url 'http://localhost:8080' to check the server is running
-   - run the script hosted in '$rootDir/scripts'.
+   - run the script hosted in '$rootDir/scripts', import the dataset to mysql
+   - copy the text in 'api.yaml' to http://editor.swagger.io, investigate the available api.
+
+** customization
+   modify the config file located in $rootDir/src/main/resources/application.conf. Recommendation service will slow down the server booting time signaficatlly if turned on.
+
+   - turn on/off recommendation service.
+   - use different database.
+     
+
 
    
   
